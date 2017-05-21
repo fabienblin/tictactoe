@@ -15,7 +15,6 @@ def play(playerChar, position, grid):
         return True
     return False
 
-#returns player num if win, else None
 def vertical_win(grid):
     for i in range(3):
         pos = i
@@ -24,7 +23,6 @@ def vertical_win(grid):
             return True
     return False
 
-#returns player num if win, else None
 def horizontal_win(grid):
     for i in range(3):
         pos = 3 * i
@@ -33,7 +31,6 @@ def horizontal_win(grid):
             return True
     return False
 
-#returns player num if win, else None
 def diagonal_win(grid):
     diag1 = grid[0] == grid[4] and grid[4] == grid[8] and grid[0] != '.'
     diag2 = grid[2] == grid[4] and grid[4] == grid[6] and grid[2] != '.'
@@ -65,25 +62,26 @@ def main():
     playerB = 'o'
     player = playerA
     grid = create_grid()
-    nextPlayer = False
 
     while 1:
+        # print grid and take player input
+        dump_grid(grid)
+        position = take_input()
+
+        # play while invalid input
+        nextPlayer = play(player, position, grid)
+        while nextPlayer == False:
+            print("invalid position")
+            pos = take_input()
+            nextPlayer = play(player, position, grid)
+        if is_win(grid):
+            dump_grid(grid)
+            exit()
+
+        # change player if the move is valid
         if player == playerB and nextPlayer:
             player = playerA
         elif nextPlayer:
             player = playerB
 
-        dump_grid(grid)
-        pos = take_input()
-
-        nextPlayer = play(player, pos, grid)
-
-        while nextPlayer == False:
-            print("invalid position")
-            pos = take_input()
-            nextPlayer = play(player, pos, grid)
-
-        if is_win(grid):
-            dump_grid(grid)
-            exit()
 main()
