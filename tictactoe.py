@@ -38,6 +38,12 @@ def diagonal_win(grid):
         return True
     return False
 
+def grid_full(grid):
+    for i in range(9):
+        if grid[i] == '.':
+            return False
+    return True
+
 def is_win(grid):
     win = False
     if vertical_win(grid) == True:
@@ -48,6 +54,9 @@ def is_win(grid):
         win = True
     if diagonal_win(grid) == True:
         print("diagonal_win")
+        win = True
+    if grid_full(grid) and win == False:
+        print("duce")
         win = True
     return win
 
@@ -72,11 +81,11 @@ def main():
         nextPlayer = play(player, position, grid)
         while nextPlayer == False:
             print("invalid position")
-            pos = take_input()
+            position = take_input()
             nextPlayer = play(player, position, grid)
         if is_win(grid):
             dump_grid(grid)
-            exit()
+            exit("Game Over.")
 
         # change player if the move is valid
         if player == playerB and nextPlayer:
